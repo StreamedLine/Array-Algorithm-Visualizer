@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 
 const arrayTracker = new ArrayTracker([1,3,2]);
-arrayTracker.track([1,2,3]);
+arrayTracker.track([1,2,3,4]);
 
 class App extends Component {
   render() {
