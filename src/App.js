@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import SortAlgorithms from './containers/SortAlgorithms'
+import ArrayForm from './components/ArrayForm';
 
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
     	<Router>
 	      <div className="App">
+	      	<ArrayForm />
 	      	<SortAlgorithms />
     	  </div>
     	</Router>

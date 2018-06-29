@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import InsertionSort from '../state/InsertionSort'
+import InsertionSort from '../components/InsertionSort';
 
 class SortAlgorithms extends React.Component {
 	render() {

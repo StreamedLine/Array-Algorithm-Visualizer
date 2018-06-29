@@ -16,3 +16,7 @@
   border-top: 2px solid blue;
   border-bottom: 2px solid blue;
 }
+
+.badInput {
+	border: 3px solid red;
+}
