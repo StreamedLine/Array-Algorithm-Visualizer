@@ -1,5 +1,5 @@
 import React from 'react';
-import currentArray from '../state/currentArray';
+import {currentArray, updateArray} from '../state/currentArray';
 
 class ArrayForm extends React.Component {
 	constructor() {
@@ -22,6 +22,14 @@ class ArrayForm extends React.Component {
 		this.setState({valid: valid, value: str});
 	}
 
+	handleSubmit = () => {
+		let str = this.state.value;
+		const valid = !!str.match(/^[\d,]*$/);
+		if (valid) {
+			updateArray(str.split(',').map(s => parseInt(s)).filter(n => !isNaN(n)));
+		}
+	}
+
 	render() {
 		let className = this.state.valid ? '' : 'badInput';
 		return (
@@ -29,7 +37,7 @@ class ArrayForm extends React.Component {
 				<h3>Enter New Array Here</h3>
 				<p>With comma separated number, like so: 9,1,3,2,6,0,2,5</p>
 				<input type="text" className={className} onChange={this.handleChange} value={this.state.value} />
-				<input type="submit" value="submit" />
+				<input type="submit" value="submit" onClick={this.handleSubmit} />
 			</div>
 		)
 	}
