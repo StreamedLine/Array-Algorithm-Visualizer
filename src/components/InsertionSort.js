@@ -1,21 +1,12 @@
 import React from 'react';
 import ArrayTracker from '../state/ArrayTracker';
-import Arr from '../containers/Arr';
+import Arr from './Arr';
 import Span from './Span';
 import {currentArray} from '../state/currentArray';
 
 class InsertionSort extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			arr: props.arr
-		}
-	}
-
-
 	render() {
-		const arrayToSort = this.state.arr || currentArray;
+		const arrayToSort = this.props.currentArray;
 
 		const trackedArrs = () => {
 			const arrayTracker = new ArrayTracker(arrayToSort, true);

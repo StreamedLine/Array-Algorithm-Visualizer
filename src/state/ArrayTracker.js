@@ -17,7 +17,6 @@ class ArrayTracker {
 
 	track(arr) {
 		//avoid duplicates
-		console.log(this.snapshots)
 		if (this.avoidDuplicates && arr.length == this.last().arr.length) {
 
 			let arr1 = arr.slice(0);
@@ -26,7 +25,7 @@ class ArrayTracker {
 				arr1.shift();
 				arr2.shift();
 			}
-			if (arr1.length == 0) {console.log('duplicate detected');return}
+			if (arr1.length == 0) {return }
 		}
 		this.snapshots.push(arr.slice(0));
 		this.sorted.push({})

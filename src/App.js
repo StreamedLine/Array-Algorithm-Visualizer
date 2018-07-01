@@ -5,17 +5,14 @@ import {
   Link
 } from 'react-router-dom';
 import './App.css';
-import SortAlgorithms from './containers/SortAlgorithms'
-import ArrayForm from './components/ArrayForm';
-
+import Dashboard from './containers/Dashboard'
 
 class App extends Component {
   render() {
     return (
     	<Router>
 	      <div className="App">
-	      	<ArrayForm />
-	      	<SortAlgorithms />
+	      	<Dashboard />
     	  </div>
     	</Router>
     );

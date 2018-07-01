@@ -3,7 +3,6 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import {currentArray} from '../state/currentArray';
 import InsertionSort from '../components/InsertionSort';
 
 class SortAlgorithms extends React.Component {
@@ -11,7 +10,7 @@ class SortAlgorithms extends React.Component {
 		return (
 			<div>
 				<Link to="/insertion">Insertion</Link>
-  			<Route path="/insertion" component={InsertionSort} arr={currentArray} />
+  			<Route path="/insertion" render={() => <InsertionSort currentArray={this.props.currentArray}/>} />
   		</div>
 		)
 	}
