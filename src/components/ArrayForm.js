@@ -1,5 +1,4 @@
 import React from 'react';
-import {updateArray} from '../state/currentArray';
 
 class ArrayForm extends React.Component {
 	constructor() {
@@ -15,7 +14,7 @@ class ArrayForm extends React.Component {
 		let str = e.target.value;
 		const valid = !!str.match(/^[\d,]*$/);
 		if (valid) {
-			while (str.indexOf(',,') != -1) {
+			while (str.indexOf(',,') !== -1) {
 				str = str.slice(0, str.indexOf(',,')) + str.slice(str.indexOf(',,') + 1);
 			}
 		}
@@ -26,7 +25,7 @@ class ArrayForm extends React.Component {
 		let str = this.state.value;
 		const valid = !!str.match(/^[\d,]*$/);
 		if (valid) {
-			this.props.updateArray(str.split(',').map(s => parseInt(s)).filter(n => !isNaN(n)));
+			this.props.updateArray(str.split(',').map(s => parseInt(s,10)).filter(n => !isNaN(n)));
 		}
 		//reload current route
 	}

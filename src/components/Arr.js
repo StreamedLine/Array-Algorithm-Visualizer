@@ -17,7 +17,7 @@ class Arr extends React.Component {
 				color = 'orange'
 			}
 
-			arrSnapshot[i] = Span({color, sorted: isSorted, data: arrSnapshot[i]})
+			arrSnapshot[i] = Span({color, sorted: isSorted, data: arrSnapshot[i], key: i})
 		}
 
 		return arrSnapshot;

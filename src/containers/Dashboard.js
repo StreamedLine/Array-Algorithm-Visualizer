@@ -12,14 +12,12 @@ class Dashboard extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this)
-		if (this.state.currentArray.length == 0) {
+		if (this.state.currentArray.length === 0) {
 			this.setState({currentArray: [9,1,3,2,6,0,2,5]})
 		}
 	}
 
 	updateArray(arr) {
-		console.log(this)
 		this.setState({currentArray: arr})
 
 	} 
@@ -27,8 +25,8 @@ class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
-				<ArrayForm updateArray={this.updateArray.bind(this)} />
 		    <SortAlgorithms currentArray={this.state.currentArray} />
+		    <ArrayForm updateArray={this.updateArray.bind(this)} />
 		  </div>
 		)
 	}

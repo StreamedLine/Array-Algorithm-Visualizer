@@ -16,6 +16,9 @@ class ArrayTracker {
 	}
 
 	track(arr) {
+		arr = arr.slice(0)
+		let sorted = {};
+
 		//avoid duplicates
 		if (this.avoidDuplicates && arr.length == this.last().arr.length) {
 
@@ -27,8 +30,16 @@ class ArrayTracker {
 			}
 			if (arr1.length == 0) {return }
 		}
-		this.snapshots.push(arr.slice(0));
-		this.sorted.push({})
+
+		if (Object.keys(sorted).length == 0) {
+			let lastSort = this.last().sorted;
+			for (let k in lastSort) {
+				sorted[k] = true;
+			}
+		}
+
+		this.snapshots.push(arr);
+		this.sorted.push(sorted);
 	}
 
 	last() {
@@ -54,9 +65,21 @@ class ArrayTracker {
 		
 		if (typeof index === 'string') {
 			let arr = [];
-			for (let i = 0; i < parseInt(index); i++) {
-				arr.push(i);
+			let marker = parseInt(index);
+			
+			if (marker < 0) {
+				let length = this.last().arr.length;
+				marker = length - Math.abs(marker);
+
+				for (let i = marker; i < length; i++) {
+					arr.push(i);
+				}
+			} else {
+				for (let i = 0; i < marker; i++) {
+					arr.push(i);
+				}
 			}
+
 			index = arr;
 		} 
 
