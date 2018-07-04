@@ -19,7 +19,7 @@ class InsertionSort extends React.Component {
 			    j -= 1; 
 			  }
 			  
-			  if (i > 0) {tracker.markSorted(i - 1) }
+			  tracker.markSorted(i);
 			  tracker.putTemp(j+1); 
 			}
 

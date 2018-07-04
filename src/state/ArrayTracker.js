@@ -2,7 +2,7 @@ function ArrPosition(val, i) {
 	this.index = i;
 	this.prevIndex = null;
 	this.val = val;
-	this.history = [{index: i, moved: false, sorted: false}];
+	this.history = [{index: i, moved: false}];
 	this.sorted = false;
 	this.isTemp = false
 }
@@ -11,6 +11,7 @@ class ArrayTracker {
 	constructor(arr, avoidDuplicates) {
 		this.avoidDuplicates = avoidDuplicates;
 		this.ordered = arr.map((val, i) => {return new ArrPosition(val, i) });
+		this.sorted = {};
 		this.step = 0;
 		this.arr = arr;
 		this.temp = null;
@@ -24,6 +25,12 @@ class ArrayTracker {
 		let temp = this.ordered[i];
 		this.ordered[i] = this.ordered[j];
 		this.ordered[j] = temp;
+
+		this.ordered[i].prevIndex = this.ordered[i].index;
+		this.ordered[i].index = i
+		this.ordered[j].prevIndex = this.ordered[j].index;
+		this.ordered[j].index = j
+		
 		this.arr[i] = this.ordered[i].val;
 		this.arr[j] = this.ordered[j].val;
 		this.updateMap()
@@ -53,23 +60,18 @@ class ArrayTracker {
 	}
 
 	markSorted(i) {
-		const indexes = [];
 		if (typeof i === 'number') {
-			indexes.push(i);
+			this.sorted[i] = true
 		} else {
-			for (var j = 0; j < i; i++) {
-				indexes.push(i);
+			for (var j = i.start; j < i.end; j++) {
+				this.sorted[j] = true
 			}
-		}
-
-		for (let index of indexes) {
-			this.ordered[index].sorted = true;
 		}
 	}
 
 	updateMap() {
 		this.ordered.forEach((arrPosition, i) => {
-			var item = {index: arrPosition.index, moved: false, sorted: arrPosition.sorted};
+			var item = {index: arrPosition.index, moved: false, sorted: this.sorted[arrPosition.index]};
 			// console.log(item)
 			if (arrPosition.prevIndex !== null && (arrPosition.index !== arrPosition.prevIndex)) {item.moved = true }
 			arrPosition.prevIndex = null;

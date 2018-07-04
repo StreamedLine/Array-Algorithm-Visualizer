@@ -4,7 +4,7 @@ import Span from '../components/Span'
 class Arr extends React.Component {
 	styledArr() {
 		let arr = this.props.arr.slice(0);
-		console.log(arr)
+	
 		for (var i = 0; i < arr.length; i++) {
 			let isSorted = arr[i].sorted;
 			let color = '';
