@@ -25,6 +25,7 @@ class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
+				{false && '//checkbox for allowing duplicates or not'}
 		    <SortAlgorithms currentArray={this.state.currentArray} />
 		    <ArrayForm updateArray={this.updateArray.bind(this)} />
 		  </div>

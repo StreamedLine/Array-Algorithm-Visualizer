@@ -3,24 +3,20 @@ import Span from '../components/Span'
 
 class Arr extends React.Component {
 	styledArr() {
-		let arrSnapshot = this.props.arr.slice(0),
-				prevSnapshot = this.props.prevSnapshot,
-				sorted = this.props.sorted;
-
-		for (var i = 0; i < arrSnapshot.length; i++) {
-			let isSorted = sorted[i];
+		let arr = this.props.arr.slice(0);
+		console.log(arr)
+		for (var i = 0; i < arr.length; i++) {
+			let isSorted = arr[i].sorted;
 			let color = '';
 
-			if (i >= prevSnapshot.length) {
-				color = 'green'
-			} else if (prevSnapshot[i] !== arrSnapshot[i]) {
+			if (arr[i].moved) {
 				color = 'orange'
 			}
 
-			arrSnapshot[i] = Span({color, sorted: isSorted, data: arrSnapshot[i], key: i})
+			arr[i] = Span({color, sorted: isSorted, data: arr[i].val, key: i})
 		}
 
-		return arrSnapshot;
+		return arr;
 	}
 
 	render() {

@@ -1,100 +1,216 @@
-function isIterable(obj) {
-  if (obj == null) {
-    return false;
-  }
-  return typeof obj[Symbol.iterator] === 'function';
+function ArrPosition(val, i) {
+	this.index = i;
+	this.prevIndex = null;
+	this.val = val;
+	this.history = [{index: i, moved: false, sorted: false}];
+	this.sorted = false;
+	this.isTemp = false
 }
-
 
 class ArrayTracker {
 	constructor(arr, avoidDuplicates) {
 		this.avoidDuplicates = avoidDuplicates;
-		this.snapshots = [];
-		this.sorted = [];
-		this.snapshots.push(arr.slice(0));
-		this.sorted.push({})
+		this.ordered = arr.map((val, i) => {return new ArrPosition(val, i) });
+		this.step = 0;
+		this.arr = arr;
+		this.temp = null;
 	}
 
-	track(arr) {
-		arr = arr.slice(0)
-		let sorted = {};
-
-		//avoid duplicates
-		if (this.avoidDuplicates && arr.length == this.last().arr.length) {
-
-			let arr1 = arr.slice(0);
-			let arr2 = this.last().arr.slice(0);
-			while (arr1.length > 0 && arr1[0] == arr2[0]) {
-				arr1.shift();
-				arr2.shift();
-			}
-			if (arr1.length == 0) {return }
-		}
-
-		if (Object.keys(sorted).length == 0) {
-			let lastSort = this.last().sorted;
-			for (let k in lastSort) {
-				sorted[k] = true;
-			}
-		}
-
-		this.snapshots.push(arr);
-		this.sorted.push(sorted);
+	putInTemp(val, i) {
+		this.temp = this.ordered[i];
 	}
 
-	last() {
-		let index = this.snapshots.length - 1;
-		return {arr: this.snapshots[index], sorted: this.sorted[index]};
+	swap(i, j) {
+		let temp = this.ordered[i];
+		this.ordered[i] = this.ordered[j];
+		this.ordered[j] = temp;
+		this.arr[i] = this.ordered[i].val;
+		this.arr[j] = this.ordered[j].val;
+		this.updateMap()
 	}
 
-	previous() {
-		let index = this.snapshots.length - 2;
-		return {arr: this.snapshots[index], sorted: this.sorted[index]};
+	shiftRight(i) {
+		this.ordered[i + 1] = this.ordered[i];
+		this.ordered[i + 1].prevIndex = i;
+		this.ordered[i + 1].index = i + 1;
+		this.arr[i + 1] = this.arr[i];
 	}
 
-	count() {
-		return this.snapshots.length;
+	shiftLeft(i) {
+		this.ordered[i - 1] = this.ordered[i];
+		this.ordered[i - 1].prevIndex = i;
+		this.ordered[i - 1].index = i - 1;
+		this.arr[i - 1] = this.arr[i];
 	}
 
-	history() {
-		return this.snapshots
+	putTemp(j) {
+		this.temp.prevIndex = this.temp.index;
+		this.ordered[j] = this.temp;
+		this.ordered[j].index = j;
+		this.arr[j] = this.temp.val;
+		this.temp = false;
+		this.updateMap()
 	}
 
-	markSorted(index) {
-		let arrIndex = this.snapshots.length - 1;
-		
-		if (typeof index === 'string') {
-			let arr = [];
-			let marker = parseInt(index);
-			
-			if (marker < 0) {
-				let length = this.last().arr.length;
-				marker = length - Math.abs(marker);
-
-				for (let i = marker; i < length; i++) {
-					arr.push(i);
-				}
-			} else {
-				for (let i = 0; i < marker; i++) {
-					arr.push(i);
-				}
-			}
-
-			index = arr;
-		} 
-
-		if (isIterable(index)) {
-			for (let i of index) {
-				this.sorted[arrIndex][i] = true
-			}
+	markSorted(i) {
+		const indexes = [];
+		if (typeof i === 'number') {
+			indexes.push(i);
 		} else {
-			this.sorted[arrIndex][index] = true
+			for (var j = 0; j < i; i++) {
+				indexes.push(i);
+			}
+		}
+
+		for (let index of indexes) {
+			this.ordered[index].sorted = true;
 		}
 	}
 
-	sorted() {
-		return this.sorted;
+	updateMap() {
+		this.ordered.forEach((arrPosition, i) => {
+			var item = {index: arrPosition.index, moved: false, sorted: arrPosition.sorted};
+			// console.log(item)
+			if (arrPosition.prevIndex !== null && (arrPosition.index !== arrPosition.prevIndex)) {item.moved = true }
+			arrPosition.prevIndex = null;
+			arrPosition.history.push(item);
+		});
+		this.step += 1;
+	}
+
+	generateMap() {
+		let map = [];
+		for (let i = 0; i <= this.step; i++) {
+			let arr = [];
+			map.push(arr);
+			for (let j = 0; j < this.ordered.length; j++) {
+				arr.push(null);
+			}
+			this.ordered.forEach(arrPosition => {
+				arr[arrPosition.history[i].index] = {val: arrPosition.val, moved: arrPosition.history[i].moved, sorted: arrPosition.history[i].sorted};
+			});
+		}
+		return map
+	}
+
+	prettyMap() {
+		let str = '';
+		let map = this.generateMap();
+		map.forEach(line => {
+			str += line.map(e => `${e.val} ${e.moved ? "MOVED " : "STAYED"}`).join('| ') + '\n'
+		})
+		console.log(str)
 	}
 }
 
 export default ArrayTracker
+
+
+
+
+
+
+
+
+
+
+// function isIterable(obj) {
+//   if (obj == null) {
+//     return false;
+//   }
+//   return typeof obj[Symbol.iterator] === 'function';
+// }
+
+
+// class ArrayTracker {
+// 	constructor(arr, avoidDuplicates) {
+// 		this.avoidDuplicates = avoidDuplicates;
+// 		this.snapshots = [];
+// 		this.sorted = [];
+// 		this.snapshots.push(arr.slice(0));
+// 		this.sorted.push({})
+// 	}
+
+// 	track(arr) {
+// 		arr = arr.slice(0)
+// 		let sorted = {};
+
+// 		//avoid duplicates
+// 		if (this.avoidDuplicates && arr.length == this.last().arr.length) {
+
+// 			let arr1 = arr.slice(0);
+// 			let arr2 = this.last().arr.slice(0);
+// 			while (arr1.length > 0 && arr1[0] == arr2[0]) {
+// 				arr1.shift();
+// 				arr2.shift();
+// 			}
+// 			if (arr1.length == 0) {return }
+// 		}
+
+// 		if (Object.keys(sorted).length == 0) {
+// 			let lastSort = this.last().sorted;
+// 			for (let k in lastSort) {
+// 				sorted[k] = true;
+// 			}
+// 		}
+
+// 		this.snapshots.push(arr);
+// 		this.sorted.push(sorted);
+// 	}
+
+// 	last() {
+// 		let index = this.snapshots.length - 1;
+// 		return {arr: this.snapshots[index], sorted: this.sorted[index]};
+// 	}
+
+// 	previous() {
+// 		let index = this.snapshots.length - 2;
+// 		return {arr: this.snapshots[index], sorted: this.sorted[index]};
+// 	}
+
+// 	count() {
+// 		return this.snapshots.length;
+// 	}
+
+// 	history() {
+// 		return this.snapshots
+// 	}
+
+// 	markSorted(index) {
+// 		let arrIndex = this.snapshots.length - 1;
+		
+// 		if (typeof index === 'string') {
+// 			let arr = [];
+// 			let marker = parseInt(index);
+			
+// 			if (marker < 0) {
+// 				let length = this.last().arr.length;
+// 				marker = length - Math.abs(marker);
+
+// 				for (let i = marker; i < length; i++) {
+// 					arr.push(i);
+// 				}
+// 			} else {
+// 				for (let i = 0; i < marker; i++) {
+// 					arr.push(i);
+// 				}
+// 			}
+
+// 			index = arr;
+// 		} 
+
+// 		if (isIterable(index)) {
+// 			for (let i of index) {
+// 				this.sorted[arrIndex][i] = true
+// 			}
+// 		} else {
+// 			this.sorted[arrIndex][index] = true
+// 		}
+// 	}
+
+// 	sorted() {
+// 		return this.sorted;
+// 	}
+// }
+
+// export default ArrayTracker

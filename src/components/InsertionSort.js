@@ -8,26 +8,26 @@ class InsertionSort extends React.Component {
 
 		const trackedArrs = () => {
 			let arr = arrayToSort.slice(0);
-			const arrayTracker = new ArrayTracker(arr, true);
+			const tracker = new ArrayTracker(arr);
 
 			for (var i = 0; i < arr.length; i++) {
-			  let currentVal = arr[i];
+			  tracker.putInTemp(arr[i], i)
 			  let j = i - 1;
-			  while (j >= 0 && arr[j] > currentVal) {
-			    arr[j + 1] = arr[j];
+			  
+			  while (j >= 0 && arr[j] > tracker.temp.val) {
+			    tracker.shiftRight(j)
 			    j -= 1; 
 			  }
-			  arr[j + 1] = currentVal;
-			  arrayTracker.track(arr);
-			  arrayTracker.markSorted(`${i}`);
+			  
+			  if (i > 0) {tracker.markSorted(i - 1) }
+			  tracker.putTemp(j+1); 
 			}
 
-			arrayTracker.markSorted(`${arr.length}`)
-
+			const map = tracker.generateMap();
+			console.log(map)
 			const arrs = [];
-			for (let i = 0; i < arrayTracker.count(); i++) {
-				let prevSnapshot = i > 0 ? arrayTracker.snapshots[i-1] : arrayTracker.snapshots[i];
-			  arrs.push(<Arr arr={arrayTracker.snapshots[i]} prevSnapshot={prevSnapshot} sorted={arrayTracker.sorted[i]} key={i} />)
+			for (let i = 0; i < map.length; i++) {
+			  arrs.push(<Arr arr={map[i]} key={i} />)
 			}
 
 			return arrs
