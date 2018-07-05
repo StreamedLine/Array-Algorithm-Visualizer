@@ -27,7 +27,6 @@ class ArrayForm extends React.Component {
 		if (valid) {
 			this.props.updateArray(str.split(',').map(s => parseInt(s,10)).filter(n => !isNaN(n)));
 		}
-		//reload current route
 	}
 
 	render() {

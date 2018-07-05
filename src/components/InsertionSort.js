@@ -24,7 +24,6 @@ class InsertionSort extends React.Component {
 			}
 
 			const map = tracker.generateMap();
-			console.log(map)
 			const arrs = [];
 			for (let i = 0; i < map.length; i++) {
 			  arrs.push(<Arr arr={map[i]} key={i} />)
