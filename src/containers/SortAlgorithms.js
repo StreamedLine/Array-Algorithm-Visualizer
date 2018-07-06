@@ -10,8 +10,11 @@ class SortAlgorithms extends React.Component {
 	render() {
 		return (
 			<div>
-				<Link to="/insertion">Insertion</Link>
-				<Link to="/bubble">Bubble</Link>
+				<div className="selectionBar">
+					<Link to="/insertion">Insertion</Link>
+					<Link to="/bubble">Bubble</Link>
+				</div>
+				
   			<Route path="/insertion" render={() => <InsertionSort currentArray={this.props.currentArray}/>} />
   			<Route path="/bubble" render={() => <BubbleSort currentArray={this.props.currentArray}/>} />
   		</div>

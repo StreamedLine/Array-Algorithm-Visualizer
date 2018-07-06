@@ -1,3 +1,30 @@
+html,body {
+	background-color: #f2f9cd;
+	padding: 10px;
+	text-align: center;
+}
+
+h2 {
+	color: grey;
+}
+
+h3 {
+	color: #dd1d1d
+}
+
+.App {
+	background-color: #b3d1cf;
+	padding: 10px;
+}
+
+.selectionBar {
+	border: 3px solid #feeb47;
+}
+
+.selectionBar a {
+	transition: 0.2s;
+}
+
 .arrElement {
   padding: 5px;
   font-size: 1.25em;
@@ -9,7 +36,8 @@
 }
 
 .orange {
-  color: orange
+  color: brown
+
 }
 
 .sorted {
@@ -23,4 +51,8 @@
 
 a {
 	margin: 10px;
+}
+
+.bold {
+	font-weight: bold;
 }

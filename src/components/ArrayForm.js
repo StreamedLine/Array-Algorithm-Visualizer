@@ -34,7 +34,7 @@ class ArrayForm extends React.Component {
 		return (
 			<div>
 				<h3>Enter New Array Here</h3>
-				<p>With comma separated number, like so: 9,1,3,2,6,0,2,5</p>
+				<p>Example: <span className="bold">9,1,3,2,6,0,2,5</span></p>
 				<input type="text" className={className} onChange={this.handleChange} value={this.state.value} />
 				<input type="submit" value="submit" onClick={this.handleSubmit} />
 			</div>
