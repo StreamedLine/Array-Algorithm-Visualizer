@@ -19,6 +19,8 @@ h3 {
 
 .selectionBar {
 	border: 3px solid #feeb47;
+	background-color: #d1e2f1;
+	padding-top: 5px;
 }
 
 .selectionBar a {
