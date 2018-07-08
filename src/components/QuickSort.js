@@ -12,7 +12,6 @@ class QuickSort extends React.Component {
 
 			function swap(left, right) {
 				tracker.swap(left, right)
-				//tracker.updateMap();
 			}
 
 			function partition(left, right) {
@@ -50,9 +49,11 @@ class QuickSort extends React.Component {
 				quickSort(0, pivot - 1);
 				quickSort(pivot + 1, right);
 			}
-			quickSort(arr);
 
+			quickSort(0, arr.length-1);
+			tracker.markSorted({start: 0, end: arr.length});
 			tracker.updateMap();
+			
 			const map = tracker.generateMap();
 
 			const arrs = [];
