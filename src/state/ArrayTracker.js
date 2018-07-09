@@ -72,7 +72,6 @@ class ArrayTracker {
 	updateMap() {
 		this.ordered.forEach((arrPosition, i) => {
 			var item = {index: arrPosition.index, moved: false, sorted: this.sorted[arrPosition.index]};
-			// console.log(item)
 			if (arrPosition.prevIndex !== null && (arrPosition.index !== arrPosition.prevIndex)) {item.moved = true }
 			arrPosition.prevIndex = null;
 			arrPosition.history.push(item);

@@ -11,20 +11,22 @@ class QuickSort extends React.Component {
 			const tracker = new ArrayTracker(arr);
 
 			function swap(left, right) {
+				// if (left === right) {return }
+				
 				tracker.swap(left, right)
 			}
 
 			function partition(left, right) {
+				
 				let pivot = right;
 
 				right -= 1;
-
 				while (true) {
 					while (arr[left] < arr[pivot]) {
 						left += 1
 					}
 
-					while (arr[right] > arr[pivot]) {
+					while (arr[right] >= arr[pivot]) {
 						right -= 1
 					}
 
@@ -33,20 +35,24 @@ class QuickSort extends React.Component {
 					} else {
 						swap(left, right)
 					}
+
 				}
 
+
 				swap(left, pivot)
+				
 				tracker.markSorted(left);
 				return left
 			}
 
 			function quickSort(left, right) {		
+				console.log(left, right, arr.length)
 				if (right - left <= 0) {
 					return
 				}
-				let pivot = partition(left, right)
+				let pivot = partition(left, right);
 
-				quickSort(0, pivot - 1);
+				quickSort(left, pivot - 1);
 				quickSort(pivot + 1, right);
 			}
 
