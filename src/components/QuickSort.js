@@ -38,10 +38,10 @@ class QuickSort extends React.Component {
 
 				}
 
-
+				tracker.markSorted(left);
 				swap(left, pivot)
 				
-				tracker.markSorted(left);
+				
 				return left
 			}
 
